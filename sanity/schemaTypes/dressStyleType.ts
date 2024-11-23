@@ -1,24 +1,33 @@
-import { TagIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
+﻿import { defineField, defineType } from "sanity";
 
-export const categoryType = defineType({
-  name: "category",
-  title: "Categories",
+export const dressStyleType = defineType({
+  name: "dressStyle",
+  title: "Dress Styles",
   type: "document",
-  icon: TagIcon,
+  icon: () => "👗",
   fields: [
     defineField({
       name: "title",
-      title: "Category Title",
+      title: "Dress Style Title",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
+      title: "Slug",
       type: "slug",
       options: {
         source: "title",
         maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: {
+        hotspot: true,
       },
       validation: (Rule) => Rule.required(),
     }),

@@ -1,15 +1,15 @@
 ﻿import { defineArrayMember, defineField, defineType } from "sanity";
 import { ShirtIcon } from "lucide-react";
 
-export const productType = defineType({
-  name: "product",
-  title: "Product",
+export const clothesType = defineType({
+  name: "clothes",
+  title: "Clothes",
   type: "document",
   icon: ShirtIcon,
   fields: [
     defineField({
-      name: "name",
-      title: "Product Title",
+      name: "title",
+      title: "Clothes Title",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -41,12 +41,12 @@ export const productType = defineType({
               name: "comment",
               title: "Comment",
               type: "string",
+              validation: (Rule) => Rule.required(),
             },
             {
-              name: "user",
-              title: "User",
-              type: "reference",
-              to: { type: "user" },
+              name: "userId",
+              title: "User ID",
+              type: "string",
               validation: (Rule) => Rule.required(),
             },
           ],
@@ -65,11 +65,13 @@ export const productType = defineType({
       title: "Images",
       type: "array",
       of: [defineArrayMember({ type: "image" })],
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "smallDescription",
       title: "smallDescription",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "productDetails",
@@ -86,7 +88,7 @@ export const productType = defineType({
       name: "discount",
       title: "Discount",
       type: "number",
-      validation: (Rule) => Rule.required().min(0).max(100),
+      validation: (Rule) => Rule.min(0).max(100),
     }),
     defineField({
       name: "colors",
@@ -104,6 +106,7 @@ export const productType = defineType({
             }),
         }),
       ],
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "sizes",
@@ -114,20 +117,70 @@ export const productType = defineType({
           type: "string",
           options: {
             list: [
+              { title: "XX-Small", value: "XXS" },
+              { title: "X-Small", value: "XS" },
               { title: "Small", value: "S" },
               { title: "Medium", value: "M" },
               { title: "Large", value: "L" },
               { title: "X-Large", value: "XL" },
+              { title: "XX-Large", value: "XXL" },
+              { title: "3X-Large", value: "3XL" },
+              { title: "4X-Large", value: "4XL" },
             ],
           },
         }),
       ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "brand",
+      title: "Brand",
+      type: "reference",
+      to: [{ type: "brand" }],
     }),
     defineField({
       name: "categories",
       title: "Categories",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: { type: "category" } })],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "dressStyle",
+      title: "Dress Style",
+      type: "array",
+      of: [
+        defineArrayMember({ type: "reference", to: { type: "dressStyle" } }),
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "gender",
+      title: "Gender",
+      type: "string",
+      options: {
+        list: [
+          { title: "Men", value: "men" },
+          { title: "Women", value: "women" },
+          { title: "Kid", value: "kid" },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "createdAt",
+      title: "Created At",
+      type: "datetime",
+      readOnly: true,
+      initialValue: () => new Date().toISOString(),
+    }),
+    defineField({
+      name: "salesCount",
+      title: "Sales Count",
+      type: "number",
+      readOnly: true,
+      validation: (Rule) => Rule.min(0),
+      initialValue: 0,
     }),
   ],
 });
