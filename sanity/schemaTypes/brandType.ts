@@ -23,15 +23,12 @@ export const brandType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "clothes",
-      title: "Clothes",
-      type: "array",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "clothes" }],
-        },
-      ],
+      name: "brandLogo",
+      title: "Brand Logo",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
     }),
   ],
 });

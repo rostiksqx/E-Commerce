@@ -1,6 +1,7 @@
 ﻿import { defineArrayMember, defineField, defineType } from "sanity";
 import { ShirtIcon } from "lucide-react";
 
+// @ts-ignore
 export const clothesType = defineType({
   name: "clothes",
   title: "Clothes",
@@ -18,7 +19,7 @@ export const clothesType = defineType({
       title: "Slug",
       type: "slug",
       options: {
-        source: "name",
+        source: "title",
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
@@ -61,13 +62,6 @@ export const clothesType = defineType({
       validation: (Rule) => Rule.min(0).max(5),
     }),
     defineField({
-      name: "images",
-      title: "Images",
-      type: "array",
-      of: [defineArrayMember({ type: "image" })],
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: "smallDescription",
       title: "smallDescription",
       type: "string",
@@ -91,22 +85,35 @@ export const clothesType = defineType({
       validation: (Rule) => Rule.min(0).max(100),
     }),
     defineField({
-      name: "colors",
-      title: "Colors",
+      name: "images",
+      title: "Images",
       type: "array",
       of: [
         defineArrayMember({
-          type: "string",
-          validation: (Rule) =>
-            Rule.required().custom((color) => {
-              if (typeof color === "string" && color.startsWith("#")) {
-                return true;
-              }
-              return "Color must begin with #";
-            }),
+          type: "object",
+          fields: [
+            {
+              name: "colorCode",
+              title: "Color Code",
+              type: "string",
+              validation: (Rule) =>
+                Rule.required().custom((color) => {
+                  if (typeof color === "string" && color.startsWith("#")) {
+                    return true;
+                  }
+                  return "Color must begin with #";
+                }),
+            },
+            {
+              name: "images",
+              title: "Images",
+              type: "array",
+              of: [defineArrayMember({ type: "image" })],
+              validation: (Rule) => Rule.required().min(1),
+            },
+          ],
         }),
       ],
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "sizes",
@@ -143,7 +150,7 @@ export const clothesType = defineType({
       title: "Categories",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: { type: "category" } })],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().unique(),
     }),
     defineField({
       name: "dressStyle",
@@ -152,7 +159,7 @@ export const clothesType = defineType({
       of: [
         defineArrayMember({ type: "reference", to: { type: "dressStyle" } }),
       ],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().unique(),
     }),
     defineField({
       name: "gender",
@@ -183,4 +190,20 @@ export const clothesType = defineType({
       initialValue: 0,
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      brand: "brand.title",
+      price: "price",
+      gender: "gender",
+      images: "images",
+    },
+    prepare({ title, brand, price, gender, images }) {
+      return {
+        title: title,
+        subtitle: `${brand}, ${price}, for ${gender}`,
+        media: images[0],
+      };
+    },
+  },
 });

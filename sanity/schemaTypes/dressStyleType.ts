@@ -31,16 +31,5 @@ export const dressStyleType = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: "clothes",
-      title: "Clothes",
-      type: "array",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "clothes" }],
-        },
-      ],
-    }),
   ],
 });

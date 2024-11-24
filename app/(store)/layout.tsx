@@ -4,6 +4,7 @@ import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
 import Header from "@/components/header";
+import Promotion from "@/components/promotion";
 
 const integralCFRegular = localFont({
   src: "../fonts/IntegralCF-Regular.woff",
@@ -32,11 +33,12 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider dynamic>
-      <html lang="en">
+      <html lang="en" className="max-w-[1920px]">
         <body>
           <main
             className={`${integralCFRegular.variable} ${satoshiRegular.variable} antialiased`}
           >
+            <Promotion />
             <Header />
             {children}
           </main>
