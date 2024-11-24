@@ -1,7 +1,6 @@
 ﻿import { defineArrayMember, defineField, defineType } from "sanity";
 import { ShirtIcon } from "lucide-react";
 
-// @ts-ignore
 export const clothesType = defineType({
   name: "clothes",
   title: "Clothes",
@@ -63,7 +62,7 @@ export const clothesType = defineType({
     }),
     defineField({
       name: "smallDescription",
-      title: "smallDescription",
+      title: "Small Description",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -85,8 +84,8 @@ export const clothesType = defineType({
       validation: (Rule) => Rule.min(0).max(100),
     }),
     defineField({
-      name: "images",
-      title: "Images",
+      name: "imagesAndColors",
+      title: "Images and Color Code",
       type: "array",
       of: [
         defineArrayMember({
@@ -196,13 +195,13 @@ export const clothesType = defineType({
       brand: "brand.title",
       price: "price",
       gender: "gender",
-      images: "images",
+      imagesAndColors: "imagesAndColors",
     },
-    prepare({ title, brand, price, gender, images }) {
+    prepare({ title, brand, price, gender, imagesAndColors }) {
       return {
         title: title,
-        subtitle: `${brand}, ${price}, for ${gender}`,
-        media: images[0],
+        subtitle: `${brand ? brand : "No Brand"}, ${price}$, for ${gender}`,
+        media: imagesAndColors[0].images[0],
       };
     },
   },

@@ -36,7 +36,7 @@ export default function RootLayout({
       <html lang="en" className="max-w-[1920px]">
         <body>
           <main
-            className={`${integralCFRegular.variable} ${satoshiRegular.variable} antialiased`}
+            className={`${integralCFRegular.variable} ${satoshiRegular.variable} antialiased font-satoshiRegular`}
           >
             <Promotion />
             <Header />
