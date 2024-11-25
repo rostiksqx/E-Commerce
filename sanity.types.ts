@@ -368,11 +368,24 @@ export type FIRST_5_BRANDSResult = Array<{
 }>;
 
 // Source: ./sanity/lib/clothes/clothes.ts
-// Variable: FIRST_5_NEW_CLOTHES
-// Query: *[_type == "clothes"] | order(createdAt desc)[0...5] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    title,    rating,    price  }
-export type FIRST_5_NEW_CLOTHESResult = Array<{
+// Variable: FIRST_4_NEW_CLOTHES
+// Query: *[_type == "clothes"] | order(createdAt desc)[0...4] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    "slug": slug.current,    discount,    title,    rating,    price  }
+export type FIRST_4_NEW_CLOTHESResult = Array<{
   id: string;
   imageUrl: string | null;
+  slug: string | null;
+  discount: number | null;
+  title: string | null;
+  rating: number | null;
+  price: number | null;
+}>;
+// Variable: TOP_4_SELLING_CLOTHES
+// Query: *[_type == "clothes"] | order(salesCount desc)[0...4] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    "slug": slug.current,    discount,    title,    rating,    price  }
+export type TOP_4_SELLING_CLOTHESResult = Array<{
+  id: string;
+  imageUrl: string | null;
+  slug: string | null;
+  discount: number | null;
   title: string | null;
   rating: number | null;
   price: number | null;
@@ -383,6 +396,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n    *[_type == \"brand\"][0...5] {\n    \"id\": _id,\n    \"title\": title,\n    \"logoUrl\": brandLogo.asset->url\n  }": FIRST_5_BRANDSResult;
-    "\n    *[_type == \"clothes\"] | order(createdAt desc)[0...5] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    title,\n    rating,\n    price\n  }": FIRST_5_NEW_CLOTHESResult;
+    "\n    *[_type == \"clothes\"] | order(createdAt desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": FIRST_4_NEW_CLOTHESResult;
+    "\n    *[_type == \"clothes\"] | order(salesCount desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": TOP_4_SELLING_CLOTHESResult;
   }
 }

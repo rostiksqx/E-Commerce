@@ -195,12 +195,13 @@ export const clothesType = defineType({
       brand: "brand.title",
       price: "price",
       gender: "gender",
+      rating: "rating",
       imagesAndColors: "imagesAndColors",
     },
-    prepare({ title, brand, price, gender, imagesAndColors }) {
+    prepare({ title, brand, price, gender, rating, imagesAndColors }) {
       return {
         title: title,
-        subtitle: `${brand ? brand : "No Brand"}, ${price}$, for ${gender}`,
+        subtitle: `${brand ? brand : "No Brand"}, ${price}$, for ${gender}, ${rating}⭐`,
         media: imagesAndColors[0].images[0],
       };
     },
