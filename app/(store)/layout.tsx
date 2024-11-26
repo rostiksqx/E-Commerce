@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
 import Header from "@/components/header";
 import Promotion from "@/components/promotion";
+import "../embla.css";
 
 const integralCFRegular = localFont({
   src: "../fonts/IntegralCF-Regular.woff",

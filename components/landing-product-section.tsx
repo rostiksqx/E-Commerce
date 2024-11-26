@@ -3,18 +3,14 @@ import ClothesCard from "@/components/clothes-card";
 import WhiteButton from "@/components/ui/white-button";
 import Link from "next/link";
 import { motion } from "motion/react";
+import {
+  FIRST_NEW_CLOTHESResult,
+  TOP_SELLING_CLOTHESResult,
+} from "@/sanity.types";
 
 type LandingProductSectionProps = {
   title: string;
-  items: {
-    id: string;
-    imageUrl: string | null;
-    slug: string | null;
-    discount: number | null;
-    title: string | null;
-    rating: number | null;
-    price: number | null;
-  }[];
+  items: FIRST_NEW_CLOTHESResult | TOP_SELLING_CLOTHESResult;
 };
 
 export default function LandingProductSection({

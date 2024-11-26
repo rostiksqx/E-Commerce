@@ -359,18 +359,18 @@ export type SanityImageMetadata = {
 export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Sales | Order | DressStyle | Clothes | Category | Brand | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/brands/brands.ts
-// Variable: FIRST_5_BRANDS
-// Query: *[_type == "brand"][0...5] {    "id": _id,    "title": title,    "logoUrl": brandLogo.asset->url  }
-export type FIRST_5_BRANDSResult = Array<{
+// Variable: FIRST_BRANDS
+// Query: *[_type == "brand"][0...15] {    "id": _id,    "title": title,    "logoUrl": brandLogo.asset->url  }
+export type FIRST_BRANDSResult = Array<{
   id: string;
   title: string | null;
   logoUrl: string | null;
 }>;
 
 // Source: ./sanity/lib/clothes/clothes.ts
-// Variable: FIRST_4_NEW_CLOTHES
+// Variable: FIRST_NEW_CLOTHES
 // Query: *[_type == "clothes"] | order(createdAt desc)[0...4] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    "slug": slug.current,    discount,    title,    rating,    price  }
-export type FIRST_4_NEW_CLOTHESResult = Array<{
+export type FIRST_NEW_CLOTHESResult = Array<{
   id: string;
   imageUrl: string | null;
   slug: string | null;
@@ -379,9 +379,9 @@ export type FIRST_4_NEW_CLOTHESResult = Array<{
   rating: number | null;
   price: number | null;
 }>;
-// Variable: TOP_4_SELLING_CLOTHES
+// Variable: TOP_SELLING_CLOTHES
 // Query: *[_type == "clothes"] | order(salesCount desc)[0...4] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    "slug": slug.current,    discount,    title,    rating,    price  }
-export type TOP_4_SELLING_CLOTHESResult = Array<{
+export type TOP_SELLING_CLOTHESResult = Array<{
   id: string;
   imageUrl: string | null;
   slug: string | null;
@@ -391,12 +391,22 @@ export type TOP_4_SELLING_CLOTHESResult = Array<{
   price: number | null;
 }>;
 
+// Source: ./sanity/lib/dressStyles/dressStyles.ts
+// Variable: FIRST_DRESS_STYLES
+// Query: *[_type == "dressStyle"][0...4] {    "id": _id,    "imageUrl": image.asset->url,    title,  }
+export type FIRST_DRESS_STYLESResult = Array<{
+  id: string;
+  imageUrl: string | null;
+  title: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n    *[_type == \"brand\"][0...5] {\n    \"id\": _id,\n    \"title\": title,\n    \"logoUrl\": brandLogo.asset->url\n  }": FIRST_5_BRANDSResult;
-    "\n    *[_type == \"clothes\"] | order(createdAt desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": FIRST_4_NEW_CLOTHESResult;
-    "\n    *[_type == \"clothes\"] | order(salesCount desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": TOP_4_SELLING_CLOTHESResult;
+    "\n    *[_type == \"brand\"][0...15] {\n    \"id\": _id,\n    \"title\": title,\n    \"logoUrl\": brandLogo.asset->url\n  }": FIRST_BRANDSResult;
+    "\n    *[_type == \"clothes\"] | order(createdAt desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": FIRST_NEW_CLOTHESResult;
+    "\n    *[_type == \"clothes\"] | order(salesCount desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": TOP_SELLING_CLOTHESResult;
+    "\n    *[_type == \"dressStyle\"][0...4] {\n    \"id\": _id,\n    \"imageUrl\": image.asset->url,\n    title,\n  }": FIRST_DRESS_STYLESResult;
   }
 }

@@ -1,13 +1,13 @@
 ﻿import Image from "next/image";
 import StarRating from "@/components/ui/stars-rating";
-import { FIRST_5_NEW_CLOTHESResult } from "@/sanity.types";
+import { FIRST_NEW_CLOTHESResult } from "@/sanity.types";
 import Link from "next/link";
 import { motion } from "motion/react";
 
 export default function ClothesCard({
   clothes,
 }: {
-  clothes: FIRST_5_NEW_CLOTHESResult[0];
+  clothes: FIRST_NEW_CLOTHESResult[0];
 }) {
   const discountedPrice =
     clothes.price && clothes.discount
@@ -34,7 +34,7 @@ export default function ClothesCard({
 
       <div className="space-y-2">
         <p className="font-bold text-xl">{clothes.title}</p>
-        <StarRating rating={clothes.rating || 5} fontSize={14} />
+        <StarRating rating={clothes.rating || 5} fontSize={14} iconSize={18} />
         <div className="flex items-center gap-x-2.5">
           {clothes.discount ? (
             <>

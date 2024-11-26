@@ -2,16 +2,18 @@
 
 interface StarRatingProps {
   rating: number;
-  fontSize: 12 | 14 | 16;
+  fontSize?: 12 | 14 | 16;
+  iconSize: 15 | 18 | 24;
   className?: string;
-  showText?: boolean;
+  isVisibleText?: boolean;
 }
 
 export default function StarRating({
   rating,
-  fontSize,
+  fontSize = 16,
+  iconSize,
   className,
-  showText = true,
+  isVisibleText = true,
 }: StarRatingProps) {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 !== 0;
@@ -23,12 +25,12 @@ export default function StarRating({
   };
 
   const starSizes = {
-    12: { width: 15, height: 15 },
-    14: { width: 18, height: 18 },
-    16: { width: 24, height: 24 },
+    15: { width: 15, height: 15 },
+    18: { width: 18, height: 18 },
+    24: { width: 24, height: 24 },
   };
 
-  const { width, height } = starSizes[fontSize];
+  const { width, height } = starSizes[iconSize];
 
   return (
     <div className={cn("flex items-center gap-1", className)}>
@@ -83,7 +85,7 @@ export default function StarRating({
           </div>
         ))}
       </div>
-      {showText && (
+      {isVisibleText && (
         <p
           className={cn("ml-1", fontSizeClasses[fontSize], {
             "order-last mr-1 ml-0": rating < 2,
