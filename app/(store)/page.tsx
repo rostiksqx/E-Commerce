@@ -39,7 +39,10 @@ export default async function Home() {
         title="New Arrivals"
         items={newArrivalsClothes}
       />
-      <Divider key="divider" className="max-w-[1240px] mx-auto my-16" />
+      <Divider
+        key="divider"
+        className="max-w-[1240px] mx-auto sm:my-16 my-10"
+      />
       <LandingProductSection
         key="top-selling"
         title="Top Selling"

@@ -3,7 +3,7 @@
 interface StarRatingProps {
   rating: number;
   fontSize?: 12 | 14 | 16;
-  iconSize: 15 | 18 | 24;
+  iconSize: string;
   className?: string;
   isVisibleText?: boolean;
 }
@@ -24,26 +24,16 @@ export default function StarRating({
     16: "text-[16px]",
   };
 
-  const starSizes = {
-    15: { width: 15, height: 15 },
-    18: { width: 18, height: 18 },
-    24: { width: 24, height: 24 },
-  };
-
-  const { width, height } = starSizes[iconSize];
-
   return (
     <div className={cn("flex items-center gap-1", className)}>
       <div className="flex">
         {[...Array(5)].map((_, index) => (
           <div key={index} className="relative">
             <svg
-              width={width}
-              height={height}
+              className={cn("text-white", iconSize)}
               viewBox="0 0 19 17"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="text-white"
             >
               <path
                 d="M9.24494 0.255005L11.8641 5.89491L18.0374 6.6431L13.4829 10.8769L14.679 16.9793L9.24494 13.956L3.8109 16.9793L5.00697 10.8769L0.452479 6.6431L6.62573 5.89491L9.24494 0.255005Z"
@@ -53,8 +43,7 @@ export default function StarRating({
             {index < fullStars && (
               <div className="absolute inset-0">
                 <svg
-                  width={width}
-                  height={height}
+                  className={cn(iconSize)}
                   viewBox="0 0 19 17"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -69,8 +58,7 @@ export default function StarRating({
             {hasHalfStar && index === fullStars && (
               <div className="absolute inset-0 overflow-hidden w-1/2">
                 <svg
-                  width={width}
-                  height={height}
+                  className={cn(iconSize)}
                   viewBox="0 0 19 17"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

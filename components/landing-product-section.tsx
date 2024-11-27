@@ -19,7 +19,7 @@ export default function LandingProductSection({
 }: LandingProductSectionProps) {
   return (
     <section>
-      <h1 className="flex justify-center items-center font-integralCFRegular font-bold uppercase text-5xl mt-[72px] mb-[55px]">
+      <h1 className="flex justify-center items-center font-integralCFRegular font-bold uppercase sm:text-5xl text-[32px] sm:mt-[72px] mt-[50px] sm:mb-[55px] mb-8">
         {title}
       </h1>
       <motion.div
@@ -34,13 +34,16 @@ export default function LandingProductSection({
             },
           },
         }}
-        className="px-[100px] flex gap-5 items-center justify-center"
+        className="lg:px-[100px] px-4 py-4 flex sm:gap-5 gap-4 items-center sm:justify-center justify-between overflow-y-scroll"
       >
         {items.map((item) => (
           <ClothesCard key={item.id} clothes={item} />
         ))}
       </motion.div>
-      <Link href="/shop" className="w-full flex justify-center mt-9">
+      <Link
+        href="/shop"
+        className="w-full flex justify-center sm:mt-9 mt-[24px]"
+      >
         <WhiteButton text="View All" />
       </Link>
     </section>

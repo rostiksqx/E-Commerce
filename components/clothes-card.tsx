@@ -20,7 +20,7 @@ export default function ClothesCard({
         hidden: { x: -50, opacity: 0 },
         visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
       }}
-      className="flex flex-col items-start space-y-4"
+      className="flex flex-col items-start h-full sm:space-y-4 space-y-2.5"
     >
       <Link href={`/shop/${clothes.slug}`} key={clothes.id}>
         <Image
@@ -28,26 +28,28 @@ export default function ClothesCard({
           alt={clothes.title || "Clothes Image"}
           width="295"
           height="298"
-          className="rounded-[20px] max-h-[298px] hover:scale-110 transition-transform duration-300"
+          className="rounded-[20px] sm:max-h-[298px] max-h-[200px] min-w-[198px] hover:scale-110 transition-transform duration-300"
         />
       </Link>
 
       <div className="space-y-2">
-        <p className="font-bold text-xl">{clothes.title}</p>
+        <p className="font-bold sm:text-xl">{clothes.title}</p>
         <StarRating rating={clothes.rating || 5} fontSize={14} iconSize={18} />
         <div className="flex items-center gap-x-2.5">
           {clothes.discount ? (
             <>
-              <p className="font-bold text-2xl">${discountedPrice}</p>
-              <p className="text-2xl font-bold text-muted-foreground line-through">
+              <p className="font-bold sm:text-2xl text-xl">
+                ${discountedPrice}
+              </p>
+              <p className="sm:text-2xl text-xl font-bold text-muted-foreground line-through">
                 ${clothes.price}
               </p>
-              <span className="px-[14px] py-[5px] text-[12px] font-medium text-red-600 bg-red-100 rounded-[62px]">
+              <span className="px-[14px] py-[5px] sm:text-[12px] text-[10px] font-medium text-red-600 bg-red-100 rounded-[62px]">
                 -{clothes.discount}%
               </span>
             </>
           ) : (
-            <p className="font-bold text-2xl">${clothes.price}</p>
+            <p className="font-bold sm:text-2xl text-xl">${clothes.price}</p>
           )}
         </div>
       </div>

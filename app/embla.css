@@ -1,6 +1,6 @@
 ﻿:root {
-    --slide-height: 38px;
-    --slide-size: 20%;
+    --brands-slide-height: 38px;
+    --brands-slide-size: 20%;
 }
 .brands__embla__viewport {
     overflow: hidden;
@@ -11,13 +11,13 @@
 }
 .brands__embla__slide {
     transform: translate3d(0, 0, 0);
-    flex: 0 0 var(--slide-size);
+    flex: 0 0 var(--brands-slide-size);
     min-height: 34px;
 }
 
 .brands__embla__slide__item {
     display: flex;
-    max-height: var(--slide-height);
+    max-height: var(--brands-slide-height);
     user-select: none;
     min-height: 34px;
 }
