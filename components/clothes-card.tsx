@@ -34,7 +34,11 @@ export default function ClothesCard({
 
       <div className="space-y-2">
         <p className="font-bold sm:text-xl">{clothes.title}</p>
-        <StarRating rating={clothes.rating || 5} fontSize={14} iconSize={18} />
+        <StarRating
+          rating={clothes.rating || 5}
+          fontSize={14}
+          iconSize="w-4 h-4 sm:w-5 sm:h-5"
+        />
         <div className="flex items-center gap-x-2.5">
           {clothes.discount ? (
             <>

@@ -1,7 +1,6 @@
 ﻿import StarRating from "@/components/ui/stars-rating";
 import { cn } from "@/lib/utils";
 
-// TODO: Implement responsive design
 export default function FeedBackCard({
   feedback,
   className,
@@ -12,7 +11,7 @@ export default function FeedBackCard({
   return (
     <div
       className={cn(
-        "border border-[#000000]/10 rounded-[20px] p-6 space-y-3 mx-4",
+        "border border-[#000000]/10 rounded-[20px] p-6 space-y-3",
         className,
       )}
     >

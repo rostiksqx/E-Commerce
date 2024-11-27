@@ -2,6 +2,8 @@
     --brands-slide-height: 38px;
     --brands-slide-size: 20%;
 }
+
+/* Brands Carousel Styles */
 .brands__embla__viewport {
     overflow: hidden;
 }
