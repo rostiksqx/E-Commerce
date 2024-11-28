@@ -1,12 +1,12 @@
-import LandingPage from "@/components/landing-page";
-import Brands from "@/components/brands";
-import LandingProductSection from "@/components/landing-product-section";
+import LandingPage from "@/components/LandingPage";
+import Brands from "@/components/Brands";
+import LandingProductSection from "@/components/LandingProductSection";
 import Divider from "@/components/ui/divider";
 import {
   GetFirstNewClothes,
   GetTopSellingClothes,
 } from "@/sanity/lib/clothes/clothes";
-import DressStyle from "@/components/dress-style";
+import DressStyle from "@/components/DressStyle";
 import { GetFirstDressStyles } from "@/sanity/lib/dressStyles/dressStyles";
 import {
   FIRST_BRANDSResult,
@@ -14,7 +14,7 @@ import {
   FIRST_NEW_CLOTHESResult,
   TOP_SELLING_CLOTHESResult,
 } from "@/sanity.types";
-import HappyCustomers from "@/components/happy-customers";
+import HappyCustomers from "@/components/HappyCustomers";
 import { GetFirstBrands } from "@/sanity/lib/brands/brands";
 
 export default async function Home() {

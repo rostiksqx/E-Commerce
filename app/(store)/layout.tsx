@@ -3,10 +3,12 @@ import localFont from "next/font/local";
 import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
-import Header from "@/components/header";
-import Promotion from "@/components/promotion";
+import Header from "@/components/Header";
 import "../embla.css";
 import { SanityLive } from "@/sanity/lib/live";
+import Footer from "@/components/Footer";
+//@ts-ignore
+import Promotion from "@/components/Promotion";
 
 const integralCFRegular = localFont({
   src: "../fonts/IntegralCF-Regular.woff",
@@ -43,6 +45,7 @@ export default function RootLayout({
             <Promotion />
             <Header />
             {children}
+            <Footer />
           </main>
           <SanityLive />
         </body>

@@ -1,5 +1,5 @@
 ﻿"use client";
-import ClothesCard from "@/components/clothes-card";
+import ClothesCard from "@/components/ClothesCard";
 import WhiteButton from "@/components/ui/white-button";
 import Link from "next/link";
 import { motion } from "motion/react";

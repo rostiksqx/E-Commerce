@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import FeedBackCard from "@/components/feed-back-card";
+import FeedBackCard from "@/components/FeedBackCard";
 import {
   NextButton,
   PrevButton,
