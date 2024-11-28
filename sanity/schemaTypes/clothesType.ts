@@ -64,7 +64,7 @@ export const clothesType = defineType({
       name: "smallDescription",
       title: "Small Description",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().min(10).max(100),
     }),
     defineField({
       name: "productDetails",
@@ -113,6 +113,7 @@ export const clothesType = defineType({
           ],
         }),
       ],
+      validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: "sizes",
@@ -169,6 +170,7 @@ export const clothesType = defineType({
           { title: "Men", value: "men" },
           { title: "Women", value: "women" },
           { title: "Kid", value: "kid" },
+          { title: "Unisex", value: "unisex" },
         ],
       },
       validation: (Rule) => Rule.required(),
@@ -184,7 +186,6 @@ export const clothesType = defineType({
       name: "salesCount",
       title: "Sales Count",
       type: "number",
-      readOnly: true,
       validation: (Rule) => Rule.min(0),
       initialValue: 0,
     }),
