@@ -9,21 +9,19 @@ import {
 } from "@/constants/footer-constants";
 import Form from "next/form";
 
-// TODO: Implement responsive design
 export default function Footer() {
   return (
-    <footer className="relative bg-[#F0F0F0] px-[100px] pt-[140px] pb-[88px] mt-[170px]">
-      <div className="absolute inset-x-[100px] bottom-[440px] bg-black text-white px-16 py-9 flex justify-between rounded-[20px]">
-        <h1 className="font-integralCFRegular font-bold text-[40px] max-w-[551px] leading-[45px]">
+    <footer className="relative bg-[#F0F0F0] px-4 xl:px-[100px] pt-[190px] xl:pt-[140px] pb-[50px] xl:pb-[50px] mt-[185px] xl:mt-[170px]">
+      <div className="absolute inset-x-[17px] md:inset-x-[100px] bottom-[750px] lg:bottom-[420px] bg-black text-white px-6 md:px-16 pt-8 pb-7 md:py-9 flex justify-center xl:justify-between flex-wrap space-y-8 xl:space-y-0 rounded-[20px]">
+        <h1 className="font-integralCFRegular font-bold text-[32px] xl:text-[40px] max-w-[551px] leading-[35px] md:leading-[45px]">
           STAY UPTO DATE ABOUT OUR LATEST OFFERS
         </h1>
         <Form
           action="/subscribe"
-          className="relative flex flex-col gap-3.5 min-w-[350px]"
+          className="relative flex flex-col gap-3 md:gap-3.5 min-w-[311px] max-w-[350px]"
         >
           <svg
-            className="absolute left-3 top-6 transform -translate-y-1/2 max-lg:static
-        max-lg:left-0 max-lg:top-0 max-lg:translate-y-0"
+            className="absolute left-3 top-6 transform -translate-y-1/2"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -45,26 +43,26 @@ export default function Footer() {
 
           <button
             type="submit"
-            className="bg-white text-black font-medium rounded-[62px] px-4 py-3"
+            className="bg-white text-black font-medium text-sm md:text-[16px] rounded-[62px] px-4 py-3"
           >
             Subscribe to Newsletter
           </button>
         </Form>
       </div>
 
-      <div className="flex items-start justify-between">
-        <div className="flex flex-col space-y-[35px] max-w-[248px]">
-          <div className="space-y-[25px]">
-            <h1 className="font-integralCFRegular font-bold text-[33px]">
+      <div className="grid grid-cols-1 lg:flex items-start justify-between">
+        <div className="flex flex-col space-y-5 lg:space-y-[35px] w-full lg:max-w-[248px]">
+          <div className="space-y-3.5 lg:space-y-[25px] col-span-1">
+            <h1 className="font-integralCFRegular font-bold text-[28px] lg:text-[33px]">
               Shop.co
             </h1>
-            <p className="text-black/60 text-sm leading-[22px]">
+            <p className="text-black/60 text-sm md:text-[16px] leading-[22px]">
               We have clothes that suits your style and which you’re proud to
               wear. From women to men.
             </p>
           </div>
           <div className="flex space-x-3">
-            {linkIcons.map((link, index) => (
+            {linkIcons.map((link) => (
               <Link
                 key={link.title}
                 href={link.href}
@@ -78,31 +76,36 @@ export default function Footer() {
           </div>
         </div>
 
-        {companyList.map((list, index) => (
-          <div key={index} className="space-y-[26px]">
-            <h3 className="font-bold tracking-[3px]">{list.title}</h3>
-            <ul className="space-y-5 text-black/60">
-              {list.links.map((link) => (
-                <li key={link.title}>
-                  <Link
-                    href={link.href}
-                    className="relative inline-block transition-colors duration-300 group"
-                  >
-                    {link.title}
-                    <span className="absolute left-0 bottom-0 w-full h-0.5 bg-black transform origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <div className="grid grid-cols-2 gap-x-14 gap-y-6 mt-6 lg:mt-0 lg:flex">
+          {companyList.map((list, index) => (
+            <div
+              key={index}
+              className="space-y-4 md:space-y-[26px] text-sm md:text-[16px]"
+            >
+              <h3 className="font-bold  tracking-[3px]">{list.title}</h3>
+              <ul className="space-y-5 text-black/60">
+                {list.links.map((link) => (
+                  <li key={link.title}>
+                    <Link
+                      href={link.href}
+                      className="relative inline-block transition-colors duration-300 group"
+                    >
+                      {link.title}
+                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-black transform origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
 
       <Divider
         key="Footer Divider"
-        className="max-w-[1340px] mx-auto sm:mt-[50px] sm:mb-5 my-10"
+        className="max-w-[1340px] mx-auto sm:mt-[50px] sm:mb-5 mt-10 mb-4 md:my-10"
       />
-      <div className="flex justify-between">
+      <div className="flex justify-center gap-4 md:gap-0 md:justify-between flex-wrap">
         <p className="text-sm text-black/60">
           Shop.co © 2000-{new Date().getFullYear()}, All Rights Reserved
         </p>
