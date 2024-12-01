@@ -1,12 +1,24 @@
 ﻿"use client";
 
 import { SignInButton, useUser } from "@clerk/nextjs";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 
 export default function Promotion() {
   const [showPromotion, setShowPromotion] = React.useState(true);
   const { user } = useUser();
+
+  useEffect(() => {
+    const isPromotionClosed = localStorage.getItem("promotionClosed");
+    if (isPromotionClosed) {
+      setShowPromotion(false);
+    }
+  }, []);
+
+  const handleClosePromotion = () => {
+    localStorage.setItem("promotionClosed", "true");
+    setShowPromotion(false);
+  };
 
   if (user || !showPromotion) {
     return null;
@@ -28,7 +40,7 @@ export default function Promotion() {
         width="13"
         height="13"
         className="absolute right-[100px] top-1/2 -translate-y-1/2 cursor-pointer max-lg:hidden"
-        onClick={() => setShowPromotion(false)}
+        onClick={handleClosePromotion}
       />
     </div>
   );

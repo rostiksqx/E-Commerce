@@ -11,39 +11,41 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import ListItem from "@/components/ui/list-item";
-import * as React from "react";
-
-const linkList: {
-  title: string;
-  href: string;
-  iconSrc: string;
-  description: string;
-}[] = [
-  {
-    title: "For She",
-    href: "/products",
-    iconSrc: "/woman.svg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    title: "For Her",
-    href: "/products",
-    iconSrc: "/man.svg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    title: "For Kids",
-    href: "/products",
-    iconSrc: "/kid.svg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-];
+import React from "react";
+import { linkList } from "@/constants/header-constants";
+import { cn } from "@/lib/utils";
+import { CLOTHES_BY_QUERYResult } from "@/sanity.types";
+import { useDebounce } from "@uidotdev/usehooks";
+import toast from "react-hot-toast";
 
 export default function Header() {
   const { user } = useUser();
+  const [focused, setFocused] = React.useState(false);
+
+  const [query, setQuery] = React.useState("");
+  const [results, setResults] = React.useState<CLOTHES_BY_QUERYResult>([]);
+  const debouncedQuery = useDebounce(query, 300);
+
+  React.useEffect(() => {
+    if (!debouncedQuery) {
+      setResults([]);
+      return;
+    }
+
+    const fetchResults = async () => {
+      try {
+        const response = await fetch(`/api/clothes?query=${debouncedQuery}`);
+        if (!response.ok) return toast.error("Failed to fetch clothes");
+        const data = await response.json();
+        setResults(data);
+      } catch (error) {
+        console.error(error);
+        setResults([]);
+      }
+    };
+
+    fetchResults().then((r) => r);
+  }, [debouncedQuery]);
 
   return (
     <header className="flex items-center justify-center w-full px-[100px] py-6 max-lg:py-5 max-lg:px-4">
@@ -90,11 +92,18 @@ export default function Header() {
         </Link>
       </NavigationMenu>
 
+      {focused && (
+        <div
+          className="fixed inset-x-0 inset-y-0 bg-black/50 z-30"
+          onClick={() => setFocused(false)}
+        />
+      )}
+
       <div className="flex items-center flex-1 space-x-3.5 max-lg:justify-end max-lg:space-x-3">
-        <div className="relative flex-1 mr-10 max-lg:flex-initial max-lg:m-0">
+        <div className="relative flex-1 mr-10 max-lg:flex-initial max-lg:m-0 z-30">
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 max-lg:static
-        max-lg:left-0 max-lg:top-0 max-lg:translate-y-0"
+          max-lg:left-0 max-lg:top-0 max-lg:translate-y-0"
             xmlns="http://www.w3.org/2000/svg"
             width="22"
             height="22"
@@ -107,11 +116,40 @@ export default function Header() {
           </svg>
 
           <input
+            onFocus={() => setFocused(true)}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
             type="text"
             placeholder="Search for products..."
             className="bg-[#F0F0F0] text-[#000000] border-none focus:outline-none pl-10 pr-4 py-3 w-full rounded-3xl max-lg:hidden"
           />
+
+          {results.map((clothes) => (
+            <div
+              className={cn(
+                "absolute w-full bg-white rounded-xl p-2 top-16 shadow-md transition-all duration-300 invisible opacity-0 z-30",
+                focused && "visible opacity-100 top-14",
+              )}
+              key={clothes.id}
+            >
+              <Link href={`/shop/${clothes.slug}`}>
+                <div className="flex flex-wrap p-2 gap-3 items-center hover:bg-gray-300 rounded-xl">
+                  <Image
+                    className="rounded-xl"
+                    src={clothes.imageUrl || "/placeholder.svg"}
+                    alt={clothes.title || "Clothe image"}
+                    width={40}
+                    height={40}
+                  />
+                  <span className="font-bold text-lg">{clothes.title}</span>
+                  <span className="text-md">${clothes.price}</span>
+                  <span className="text-md">{clothes.rating}⭐</span>
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
+
         <ClerkLoaded>
           {user ? (
             <>

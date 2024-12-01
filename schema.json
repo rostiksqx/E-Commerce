@@ -1431,6 +1431,10 @@
             {
               "type": "string",
               "value": "kid"
+            },
+            {
+              "type": "string",
+              "value": "unisex"
             }
           ]
         },

@@ -42,3 +42,26 @@ export const GetTopSellingClothes = async (size: number = 4) => {
     return [];
   }
 };
+
+export const GetClothesByQuery = async (query = "") => {
+  const CLOTHES_BY_QUERY = defineQuery(`
+        *[_type == "clothes" && title match $searchQuery] {
+        "id": _id,
+        "imageUrl": imagesAndColors[0].images[0].asset->url,
+        "slug": slug.current,
+        title,
+        rating,
+        price
+    }`);
+
+  try {
+    const clothes = await sanityFetch({
+      query: CLOTHES_BY_QUERY,
+      params: { searchQuery: `${query}*` },
+    });
+    return clothes.data || [];
+  } catch (error) {
+    console.error("Error fetching clothes: ", error);
+    return [];
+  }
+};
