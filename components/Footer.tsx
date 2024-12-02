@@ -50,7 +50,7 @@ export default function Footer() {
         </Form>
       </div>
 
-      <div className="grid grid-cols-1 lg:flex items-start justify-between">
+      <div className="grid grid-cols-1 lg:grid-cols-[361px_1fr]">
         <div className="flex flex-col space-y-5 lg:space-y-[35px] w-full lg:max-w-[248px]">
           <div className="space-y-3.5 lg:space-y-[25px] col-span-1">
             <h1 className="font-integralCFRegular font-bold text-[28px] lg:text-[33px]">
@@ -76,7 +76,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-14 gap-y-6 mt-6 lg:mt-0 lg:flex">
+        <div className="grid grid-cols-2 gap-x-14 gap-y-6 mt-6 lg:mt-0 lg:grid-cols-4">
           {companyList.map((list, index) => (
             <div
               key={index}

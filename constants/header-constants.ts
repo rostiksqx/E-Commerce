@@ -6,28 +6,28 @@
 }[] = [
   {
     title: "For She",
-    href: "/products",
+    href: "/shop/gender/woman",
     iconSrc: "/woman.svg",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     title: "For Her",
-    href: "/products",
+    href: "/shop/gender/man",
     iconSrc: "/man.svg",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     title: "For Kids",
-    href: "/products",
+    href: "/shop/gender/kid",
     iconSrc: "/kid.svg",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     title: "Unisex",
-    href: "/products",
+    href: "/shop/gender/unisex",
     iconSrc: "/man.svg",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
