@@ -65,3 +65,37 @@ export const GetClothesByQuery = async (query = "") => {
     return [];
   }
 };
+
+export const GetPaginatedData = async (
+  page: number = 1,
+  limit: number = 10,
+) => {
+  const GET_PAGINATED_DATA = defineQuery(`{
+    "total": count(*[_type == "clothes"]),
+    "items": *[_type == "clothes"] | order(createdAt desc) [$start...$end] {
+      "id": _id,
+      "imageUrl": imagesAndColors[0].images[0].asset->url,
+      "slug": slug.current,
+      discount,
+      title,
+      rating,
+      price
+    }
+  }`);
+
+  try {
+    const { data } = await sanityFetch({
+      query: GET_PAGINATED_DATA,
+      params: { start: (page - 1) * limit, end: page * limit },
+    });
+
+    return {
+      items: data.items,
+      totalItems: data.total,
+      totalPages: Math.ceil(data.total / limit),
+    };
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+    return { items: [], total: 0, totalPages: 0 };
+  }
+};

@@ -28,10 +28,10 @@ function darkenColor(hex: string, percent: number) {
   return `#${toHex(darker(r))}${toHex(darker(g))}${toHex(darker(b))}`;
 }
 
-// TODO: Implement responsive design
+// TODO: Implement responsive design, fix some issues
 export default function Filters() {
   return (
-    <div className="flex flex-col max-w-[295px] gap-6 pt-5 pb-7 px-6 rounded-[20px] border border-black/10">
+    <div className="flex flex-col max-h-[1220px] gap-6 pt-5 pb-7 px-6 rounded-[20px] border border-black/10">
       <div className="flex justify-between items-center">
         <h3 className="font-bold text-xl">Filters</h3>
         <Image

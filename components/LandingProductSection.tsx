@@ -36,8 +36,17 @@ export default function LandingProductSection({
         }}
         className="lg:px-[100px] px-4 py-4 flex sm:gap-5 gap-4 items-center sm:justify-center justify-between overflow-y-scroll"
       >
-        {items.map((item) => (
-          <ClothesCard key={item.id} clothes={item} />
+        {items.map((item, index) => (
+          <motion.div
+            key={index}
+            variants={{
+              hidden: { x: -50, opacity: 0 },
+              visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
+            }}
+            className="flex flex-col items-start h-full sm:space-y-4 space-y-2.5"
+          >
+            <ClothesCard key={item.slug} cloth={item} />
+          </motion.div>
         ))}
       </motion.div>
       <Link

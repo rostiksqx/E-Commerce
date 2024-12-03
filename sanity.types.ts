@@ -157,39 +157,36 @@ export type Clothes = {
   }>;
   rating?: number;
   smallDescription?: string;
-  productDetails?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
+  productDetails?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
   price?: number;
   discount?: number;
   imagesAndColors?: Array<{
@@ -271,39 +268,36 @@ export type Slug = {
   source?: string;
 };
 
-export type BlockContent = Array<
-  | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-      listItem?: "bullet";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }
-  | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-      _key: string;
-    }
->;
+export type BlockContent = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+  listItem?: "bullet";
+  markDefs?: Array<{
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+} | {
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  };
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt?: string;
+  _type: "image";
+  _key: string;
+}>;
 
 export type SanityImageCrop = {
   _type: "sanity.imageCrop";
@@ -362,27 +356,18 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type AllSanitySchemaTypes =
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityFileAsset
-  | Geopoint
-  | Sales
-  | Order
-  | DressStyle
-  | Clothes
-  | Category
-  | Brand
-  | Slug
-  | BlockContent
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
-  | SanityImageMetadata;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Sales | Order | DressStyle | Clothes | Category | Brand | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./sanity/lib/clothes/route.ts
+// Source: ./sanity/lib/brands/brands.ts
+// Variable: FIRST_BRANDS
+// Query: *[_type == "brand"][0...15] {    "id": _id,    "title": title,    "logoUrl": brandLogo.asset->url  }
+export type FIRST_BRANDSResult = Array<{
+  id: string;
+  title: string | null;
+  logoUrl: string | null;
+}>;
+
+// Source: ./sanity/lib/clothes/clothes.ts
 // Variable: FIRST_NEW_CLOTHES
 // Query: *[_type == "clothes"] | order(createdAt desc)[0...4] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    "slug": slug.current,    discount,    title,    rating,    price  }
 export type FIRST_NEW_CLOTHESResult = Array<{
@@ -415,15 +400,20 @@ export type CLOTHES_BY_QUERYResult = Array<{
   rating: number | null;
   price: number | null;
 }>;
-
-// Source: ./sanity/lib/brands/brands.ts
-// Variable: FIRST_BRANDS
-// Query: *[_type == "brand"][0...15] {    "id": _id,    "title": title,    "logoUrl": brandLogo.asset->url  }
-export type FIRST_BRANDSResult = Array<{
-  id: string;
-  title: string | null;
-  logoUrl: string | null;
-}>;
+// Variable: GET_PAGINATED_DATA
+// Query: {    "total": count(*[_type == "clothes"]),    "items": *[_type == "clothes"] | order(createdAt desc) [$start...$end] {      "id": _id,      "imageUrl": imagesAndColors[0].images[0].asset->url,      "slug": slug.current,      discount,      title,      rating,      price    }  }
+export type GET_PAGINATED_DATAResult = {
+  total: number;
+  items: Array<{
+    id: string;
+    imageUrl: string | null;
+    slug: string | null;
+    discount: number | null;
+    title: string | null;
+    rating: number | null;
+    price: number | null;
+  }>;
+};
 
 // Source: ./sanity/lib/dressStyles/dressStyles.ts
 // Variable: FIRST_DRESS_STYLES
@@ -436,13 +426,13 @@ export type FIRST_DRESS_STYLESResult = Array<{
 
 // Query TypeMap
 import "@sanity/client";
-
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n    *[_type == "clothes"] | order(createdAt desc)[0...4] {\n    "id": _id,\n    "imageUrl": imagesAndColors[0].images[0].asset->url,\n    "slug": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }': FIRST_NEW_CLOTHESResult;
-    '\n    *[_type == "clothes"] | order(salesCount desc)[0...4] {\n    "id": _id,\n    "imageUrl": imagesAndColors[0].images[0].asset->url,\n    "slug": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }': TOP_SELLING_CLOTHESResult;
-    '\n        *[_type == "clothes" && title match $searchQuery] {\n        "id": _id,\n        "imageUrl": imagesAndColors[0].images[0].asset->url,\n        "slug": slug.current,\n        title,\n        rating,\n        price\n    }': CLOTHES_BY_QUERYResult;
-    '\n    *[_type == "brand"][0...15] {\n    "id": _id,\n    "title": title,\n    "logoUrl": brandLogo.asset->url\n  }': FIRST_BRANDSResult;
-    '\n    *[_type == "dressStyle"][0...4] {\n    "id": _id,\n    "imageUrl": image.asset->url,\n    title,\n  }': FIRST_DRESS_STYLESResult;
+    "\n    *[_type == \"brand\"][0...15] {\n    \"id\": _id,\n    \"title\": title,\n    \"logoUrl\": brandLogo.asset->url\n  }": FIRST_BRANDSResult;
+    "\n    *[_type == \"clothes\"] | order(createdAt desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": FIRST_NEW_CLOTHESResult;
+    "\n    *[_type == \"clothes\"] | order(salesCount desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": TOP_SELLING_CLOTHESResult;
+    "\n        *[_type == \"clothes\" && title match $searchQuery] {\n        \"id\": _id,\n        \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n        \"slug\": slug.current,\n        title,\n        rating,\n        price\n    }": CLOTHES_BY_QUERYResult;
+    "{\n    \"total\": count(*[_type == \"clothes\"]),\n    \"items\": *[_type == \"clothes\"] | order(createdAt desc) [$start...$end] {\n      \"id\": _id,\n      \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n      \"slug\": slug.current,\n      discount,\n      title,\n      rating,\n      price\n    }\n  }": GET_PAGINATED_DATAResult;
+    "\n    *[_type == \"dressStyle\"][0...4] {\n    \"id\": _id,\n    \"imageUrl\": image.asset->url,\n    title,\n  }": FIRST_DRESS_STYLESResult;
   }
 }
