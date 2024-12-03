@@ -66,10 +66,7 @@ export const GetClothesByQuery = async (query = "") => {
   }
 };
 
-export const GetPaginatedData = async (
-  page: number = 1,
-  limit: number = 10,
-) => {
+export const GetPaginatedData = async (page: number = 1, limit: number = 9) => {
   const GET_PAGINATED_DATA = defineQuery(`{
     "total": count(*[_type == "clothes"]),
     "items": *[_type == "clothes"] | order(createdAt desc) [$start...$end] {
