@@ -120,7 +120,7 @@ export default function Footer() {
                 alt={payment.title}
                 width="40"
                 height="15"
-                className="max-w-9 max-h-4"
+                className="max-w-9 max-h-4 w-auto h-auto"
               />
             </div>
           ))}

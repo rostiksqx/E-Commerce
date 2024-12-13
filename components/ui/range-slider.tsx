@@ -64,7 +64,7 @@ const RangeSlider = React.forwardRef(
         {localValues.map((value, index) => (
           <React.Fragment key={index}>
             <div
-              className="absolute text-left"
+              className="absolute z-10 text-left"
               style={{
                 left: `calc(${((value - min) / (max - min)) * 86}% + 0px)`,
                 top: `12px`,

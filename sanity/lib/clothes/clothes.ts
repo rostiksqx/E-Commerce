@@ -1,5 +1,6 @@
 ﻿import { defineQuery } from "next-sanity";
 import { sanityFetch } from "../live";
+import { FilterState } from "@/types/shop-types";
 
 export const GetFirstNewClothes = async (size: number = 4) => {
   const FIRST_NEW_CLOTHES = defineQuery(`
@@ -66,10 +67,64 @@ export const GetClothesByQuery = async (query = "") => {
   }
 };
 
-export const GetPaginatedData = async (page: number = 1, limit: number = 9) => {
+export const GetPaginatedData = async (
+  page: number = 1,
+  limit: number = 9,
+  filters: {
+    selectedFilters?: FilterState;
+    onSale?: boolean;
+    newArrivals?: boolean;
+  },
+) => {
+  let baseCondition = "";
+  let newArrivalsConditions = "";
+  // refactor to switch case
+  if (filters.onSale) baseCondition += ` && discount > 0`;
+  if (filters.newArrivals) newArrivalsConditions += ` | order(createdAt desc)`;
+  if (
+    filters.selectedFilters?.categories &&
+    filters.selectedFilters.categories.length >= 1
+  ) {
+    baseCondition += ` && count((categories[]->slug.current)[@ in ${JSON.stringify(
+      filters.selectedFilters.categories,
+    )}]) > 0`;
+  }
+  if (
+    filters.selectedFilters?.dressStyle &&
+    filters.selectedFilters.dressStyle.length >= 1
+  ) {
+    baseCondition += ` && count((dressStyle[]->slug.current)[@ in ${JSON.stringify(
+      filters.selectedFilters.dressStyle,
+    )}]) > 0`;
+  }
+  if (
+    filters.selectedFilters?.colors &&
+    filters.selectedFilters.colors.length >= 1
+  ) {
+    baseCondition += ` && count((imagesAndColors[].colorCode)[@ in ${JSON.stringify(
+      filters.selectedFilters.colors,
+    )}]) > 0`;
+  }
+  if (
+    filters.selectedFilters?.sizes &&
+    filters.selectedFilters.sizes.length >= 1
+  ) {
+    baseCondition += ` && count((sizes[])[@ in ${JSON.stringify(
+      filters.selectedFilters.sizes,
+    )}]) > 0`;
+  }
+  if (
+    filters.selectedFilters?.price &&
+    filters.selectedFilters.price.length === 2
+  ) {
+    baseCondition += ` && price >= ${filters.selectedFilters.price[0]} && price <= ${
+      filters.selectedFilters.price[1]
+    }`;
+  }
+
   const GET_PAGINATED_DATA = defineQuery(`{
-    "total": count(*[_type == "clothes"]),
-    "items": *[_type == "clothes"] | order(createdAt desc) [$start...$end] {
+    "total": count(*[_type == "clothes" ${baseCondition}]${newArrivalsConditions}),
+    "items": *[_type == "clothes" ${baseCondition}] [$start...$end] {
       "id": _id,
       "imageUrl": imagesAndColors[0].images[0].asset->url,
       "slug": slug.current,
@@ -93,6 +148,6 @@ export const GetPaginatedData = async (page: number = 1, limit: number = 9) => {
     };
   } catch (error) {
     console.error("Error fetching data: ", error);
-    return { items: [], total: 0, totalPages: 0 };
+    return { items: [], totalItems: 0, totalPages: 0 };
   }
 };

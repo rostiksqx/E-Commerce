@@ -1,36 +1,81 @@
-﻿import Filters from "@/components/Filters";
+﻿"use client";
+import Filters from "@/components/Filters";
 import ClothesGrid from "@/components/ClothesGrid";
-import { GetPaginatedData } from "@/sanity/lib/clothes/clothes";
 import ShopPagination from "@/components/ui/shop-pagination";
 import Divider from "@/components/ui/divider";
+import { useEffect, useState } from "react";
+import { FilterState, ShopData } from "@/types/shop-types";
+import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
-interface PageProps {
-  searchParams: {
-    page?: string;
-  };
-}
+export default function ShopPage() {
+  const params = useSearchParams();
+  const currentPage = Number(params.get("page")) || 1;
+  const onSale = params.has("onSale");
+  const newArrivals = params.has("newArrivals");
 
-export default async function ShopPage({ searchParams }: PageProps) {
-  const currentPage = Number(searchParams.page) || 1;
-  const { items, totalItems, totalPages } = await GetPaginatedData(currentPage);
-  // possible query: ?onSale=true&NewArrival=true&page=1
+  const [shopData, setShopData] = useState<ShopData>({
+    items: [],
+    totalItems: 0,
+    totalPages: 0,
+    filters: {
+      category: [],
+      dressStyle: [],
+    },
+  });
+  const [filters, setFilters] = useState<FilterState>({
+    categories: [],
+    price: [0, 2600],
+    colors: [],
+    sizes: [],
+    dressStyle: [],
+  });
+
+  useEffect(() => {
+    const fetchShopData = async () => {
+      try {
+        const response = await fetch(`/api/shop`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            selectedFilters: filters,
+            currentPage,
+            onSale,
+            newArrivals,
+          }),
+        });
+
+        if (!response.ok) {
+          return toast.error("Failed to fetch products");
+        }
+        const data = (await response.json()) as ShopData;
+        setShopData(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        toast.error("Failed to fetch products");
+      }
+    };
+
+    fetchShopData().then((r) => r);
+  }, [currentPage, filters, onSale, newArrivals]);
 
   return (
-    <div className="xl:grid grid-cols-[295px_925px] items-center lg:items-start gap-5">
-      <Filters />
+    <div className="xl:grid grid-cols-[295px_925px] items-center lg:items-start 2xl:justify-center gap-7">
+      <Filters filters={shopData.filters} setFiltersAction={setFilters} />
       <div>
-        <div className="flex md:justify-center gap-2 lg:gap-0 lg:justify-between mb-4 relative items-end">
+        <div className="flex md:justify-evenly gap-2 lg:gap-0 xl:justify-between mb-7 lg:mb-4 relative items-end">
           <h1 className="font-bold text-[24px] md:text-[32px]">Shop</h1>
           <div className="flex gap-3">
-            <p className="text-black/60 text-[14px] md:text-xm">
-              Showing 1-9 of {totalItems} Products
+            <p className="text-black/60 text-[14px] md:text-xm mb-1">
+              Showing 1-{shopData.items.length} of {shopData.totalItems}{" "}
+              Products
             </p>
-            <p className="text-black/60 hidden md:visible">
+            <p className="text-black/60 hidden md:block">
               Sort by:{" "}
               <span className="text-black font-bold">Most Popular</span>
             </p>
           </div>
-          <button className="w-8 h-8 rounded-full bg-[#F0F0F0] flex justify-center items-center absolute right-0 lg:hidden">
+          <button className="w-8 h-8 rounded-full bg-[#F0F0F0] flex justify-center items-center absolute right-0 xl:hidden">
             <svg
               width="16"
               height="16"
@@ -45,12 +90,13 @@ export default async function ShopPage({ searchParams }: PageProps) {
             </svg>
           </button>
         </div>
-        <ClothesGrid clothes={items} />
+        <ClothesGrid clothes={shopData.items} />
         <Divider className="max-w-[358px] lg:max-w-[925px] my-8 mx-auto" />
         <ShopPagination
           currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={totalItems || 0}
+          totalPages={shopData.totalPages}
+          totalItems={shopData.totalItems}
+          searchParams={{ onSale, newArrivals }}
         />
       </div>
     </div>

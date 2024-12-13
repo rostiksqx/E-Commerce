@@ -16,10 +16,12 @@ export default function ShopPagination({
   currentPage,
   totalPages,
   totalItems,
+  searchParams,
 }: {
   currentPage: number;
   totalPages: number;
   totalItems: number;
+  searchParams: { onSale?: boolean; newArrivals?: boolean };
 }) {
   const router = useRouter();
 
@@ -50,6 +52,18 @@ export default function ShopPagination({
     return range;
   };
 
+  const constructHref = (page: number): string => {
+    if (searchParams.onSale) {
+      return `/shop?onSale&page=${page}`;
+    }
+
+    if (searchParams.newArrivals) {
+      return `/shop?newArrival&page=${page}`;
+    }
+
+    return `/shop?page=${page}`;
+  };
+
   const paginationRange = getPaginationRange();
 
   return (
@@ -57,7 +71,7 @@ export default function ShopPagination({
       <PaginationContent className="lg:justify-between lg:w-full">
         <PaginationItem>
           <PaginationPrevious
-            href={`/shop?page=${currentPage === 1 ? 1 : currentPage - 1}`}
+            href={constructHref(currentPage === 1 ? 1 : currentPage - 1)}
             isActive={!(currentPage === 1)}
           />
         </PaginationItem>
@@ -71,7 +85,7 @@ export default function ShopPagination({
             ) : (
               <PaginationItem key={page}>
                 <PaginationLink
-                  href={`/shop?page=${page}`}
+                  href={constructHref(page as number)}
                   isActive={page === currentPage}
                 >
                   {page}
@@ -83,7 +97,9 @@ export default function ShopPagination({
 
         <PaginationItem>
           <PaginationNext
-            href={`/shop?page=${currentPage === totalPages ? totalPages : currentPage + 1}`}
+            href={constructHref(
+              currentPage === totalPages ? totalPages : currentPage + 1,
+            )}
             isActive={!(currentPage === totalPages)}
           />
         </PaginationItem>

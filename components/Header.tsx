@@ -37,6 +37,7 @@ export default function Header() {
         const response = await fetch(`/api/clothes?query=${debouncedQuery}`);
         if (!response.ok) return toast.error("Failed to fetch clothes");
         const data = await response.json();
+        console.log(data);
         setResults(data);
       } catch (error) {
         console.error(error);
@@ -81,10 +82,10 @@ export default function Header() {
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
-        <Link href="/products?query=onSale">
+        <Link href="/shop?onSale">
           <span>On Sale</span>
         </Link>
-        <Link href="/products?category=new-arrivals">
+        <Link href="/shop?newArrivals">
           <span>New Arrivals</span>
         </Link>
         <Link href="/brands">
@@ -124,15 +125,18 @@ export default function Header() {
             className="bg-[#F0F0F0] text-[#000000] border-none focus:outline-none pl-10 pr-4 py-3 w-full rounded-3xl max-lg:hidden"
           />
 
-          {results.map((clothes) => (
-            <div
-              className={cn(
-                "absolute w-full bg-white rounded-xl p-2 top-16 shadow-md transition-all duration-300 invisible opacity-0 z-30",
-                focused && "visible opacity-100 top-14",
-              )}
-              key={clothes.id}
-            >
-              <Link href={`/shop/${clothes.slug}`}>
+          <div
+            className={cn(
+              "absolute w-full bg-white rounded-xl p-2 top-16 shadow-md transition-all duration-300 invisible opacity-0 z-30",
+              focused && "visible opacity-100 top-14",
+              results.length <= 0 && "hidden",
+            )}
+          >
+            {results.map((clothes) => (
+              <Link
+                key={`${clothes.slug}-${clothes.id}`}
+                href={`/shop/${clothes.slug}`}
+              >
                 <div className="flex flex-wrap p-2 gap-3 items-center hover:bg-gray-300 rounded-xl">
                   <Image
                     className="rounded-xl"
@@ -146,8 +150,8 @@ export default function Header() {
                   <span className="text-md">{clothes.rating}⭐</span>
                 </div>
               </Link>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <ClerkLoaded>

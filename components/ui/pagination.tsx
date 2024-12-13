@@ -68,7 +68,7 @@ const PaginationPrevious = ({
     aria-label="Go to previous page"
     size="default"
     className={cn(
-      "gap-2 pl-2.5 border border-black/10 bg-white hover:bg-black/10 font-bold",
+      "gap-2 pl-2.5 border border-black/10 bg-white hover:bg-black/10 hover:text-black font-bold",
       className,
     )}
     {...props}
@@ -92,7 +92,7 @@ const PaginationNext = ({
     aria-label="Go to next page"
     size="default"
     className={cn(
-      "gap-2 pr-2.5 border border-black/10 bg-white hover:bg-black/10 font-bold",
+      "gap-2 pr-2.5 border border-black/10 bg-white hover:bg-black/10 hover:text-black font-bold",
       className,
     )}
     {...props}

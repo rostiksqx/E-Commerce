@@ -21,7 +21,8 @@ export default function ClothesCard({
           alt={cloth.title || "Clothes Image"}
           width="295"
           height="298"
-          className="rounded-[20px] sm:max-h-[298px] max-h-[200px] min-w-[198px] hover:scale-110 transition-transform duration-300"
+          priority={true}
+          className="rounded-[20px] sm:max-h-[298px] max-h-[200px] min-w-[172px] min-h-[200px] hover:scale-110 transition-transform duration-300"
         />
       </Link>
 
