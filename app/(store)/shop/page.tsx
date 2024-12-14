@@ -1,12 +1,21 @@
 ﻿"use client";
 import Filters from "@/components/Filters";
-import ClothesGrid from "@/components/ClothesGrid";
 import ShopPagination from "@/components/ui/shop-pagination";
 import Divider from "@/components/ui/divider";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FilterState, ShopData } from "@/types/shop-types";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import ClothesGrid from "@/components/ClothesGrid";
+import GridClothesSkeleton from "@/components/GridClothesSkeleton";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ShopPage() {
   const params = useSearchParams();
@@ -23,6 +32,8 @@ export default function ShopPage() {
       dressStyle: [],
     },
   });
+  const [sortOptions, setSortOptions] = useState<string>("most-popular");
+
   const [filters, setFilters] = useState<FilterState>({
     categories: [],
     price: [0, 2600],
@@ -30,15 +41,19 @@ export default function ShopPage() {
     sizes: [],
     dressStyle: [],
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchShopData = async () => {
       try {
+        setIsLoading(true);
+        const loading = toast.loading("Loading products...");
         const response = await fetch(`/api/shop`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             selectedFilters: filters,
+            sortOptions: sortOptions,
             currentPage,
             onSale,
             newArrivals,
@@ -46,10 +61,13 @@ export default function ShopPage() {
         });
 
         if (!response.ok) {
-          return toast.error("Failed to fetch products");
+          toast.error("Failed to fetch products");
+          return;
         }
         const data = (await response.json()) as ShopData;
         setShopData(data);
+        setIsLoading(false);
+        toast.success("Products loaded", { id: loading });
       } catch (error) {
         console.error("Error fetching products:", error);
         toast.error("Failed to fetch products");
@@ -57,7 +75,7 @@ export default function ShopPage() {
     };
 
     fetchShopData().then((r) => r);
-  }, [currentPage, filters, onSale, newArrivals]);
+  }, [currentPage, filters, onSale, newArrivals, sortOptions]);
 
   return (
     <div className="xl:grid grid-cols-[295px_925px] items-center lg:items-start 2xl:justify-center gap-7">
@@ -71,8 +89,38 @@ export default function ShopPage() {
               Products
             </p>
             <p className="text-black/60 hidden md:block">
-              Sort by:{" "}
-              <span className="text-black font-bold">Most Popular</span>
+              <Select
+                value={sortOptions}
+                onValueChange={(value) => setSortOptions(value)}
+              >
+                <SelectTrigger>
+                  <p>
+                    Sort by:{" "}
+                    <span className="text-black font-bold">
+                      <SelectValue placeholder="Most popular" />
+                    </span>
+                  </p>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="most-popular">Most Popular</SelectItem>
+                    <SelectItem value="price-low-to-high">
+                      Price (Low-Higher)
+                    </SelectItem>
+                    <SelectItem value="price-high-to-low">
+                      Price (Higher-Low)
+                    </SelectItem>
+                    <SelectItem value="a-z">A-Z</SelectItem>
+                    <SelectItem value="z-a">Z-A</SelectItem>
+                    <SelectItem value="rating-asc">
+                      Rating (Ascending)
+                    </SelectItem>
+                    <SelectItem value="rating-desc">
+                      Rating (Descending)
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </p>
           </div>
           <button className="w-8 h-8 rounded-full bg-[#F0F0F0] flex justify-center items-center absolute right-0 xl:hidden">
@@ -90,13 +138,26 @@ export default function ShopPage() {
             </svg>
           </button>
         </div>
-        <ClothesGrid clothes={shopData.items} />
-        <Divider className="max-w-[358px] lg:max-w-[925px] my-8 mx-auto" />
+        {shopData.items.length === 0 ? (
+          isLoading ? (
+            <GridClothesSkeleton count={9} />
+          ) : (
+            <p className="text-black/60 text-3xl text-center mt-16">
+              No products found 🥲
+            </p>
+          )
+        ) : (
+          <>
+            <ClothesGrid clothes={shopData.items} />
+            <Divider className="max-w-[358px] lg:max-w-[925px] my-8 mx-auto" />
+          </>
+        )}
         <ShopPagination
           currentPage={currentPage}
           totalPages={shopData.totalPages}
           totalItems={shopData.totalItems}
           searchParams={{ onSale, newArrivals }}
+          isLoading={isLoading}
         />
       </div>
     </div>

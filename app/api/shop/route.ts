@@ -10,12 +10,13 @@ export async function POST(req: Request) {
     const currentPage = body.currentPage;
     const onSale = body.onSale;
     const newArrivals = body.newArrivals;
+    const sortOptions = body.sortOptions;
     const selectedFilters: FilterState = body.selectedFilters || {};
 
     const { items, totalItems, totalPages } = await GetPaginatedData(
       Number(currentPage),
       9,
-      { selectedFilters, onSale, newArrivals },
+      { sortOptions, selectedFilters, onSale, newArrivals },
     );
 
     const filters = (await GetFilters()) as GET_FILTERSResult;

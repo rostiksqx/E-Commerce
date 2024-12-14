@@ -9,6 +9,7 @@ import { SanityLive } from "@/sanity/lib/live";
 import Footer from "@/components/Footer";
 //@ts-ignore
 import Promotion from "@/components/Promotion";
+import { Toaster } from "react-hot-toast";
 
 const integralCFRegular = localFont({
   src: "../fonts/IntegralCF-Regular.woff",
@@ -42,6 +43,7 @@ export default function RootLayout({
           <main
             className={`${integralCFRegular.variable} ${satoshiRegular.variable} antialiased font-satoshiRegular`}
           >
+            <Toaster position="top-right" />
             <Promotion />
             <Header />
             {children}

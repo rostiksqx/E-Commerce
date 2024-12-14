@@ -17,11 +17,13 @@ export default function ShopPagination({
   totalPages,
   totalItems,
   searchParams,
+  isLoading,
 }: {
   currentPage: number;
   totalPages: number;
   totalItems: number;
   searchParams: { onSale?: boolean; newArrivals?: boolean };
+  isLoading: boolean;
 }) {
   const router = useRouter();
 

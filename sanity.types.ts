@@ -367,63 +367,6 @@ export type FIRST_BRANDSResult = Array<{
   logoUrl: string | null;
 }>;
 
-// Source: ./sanity/lib/dressStyles/dressStyles.ts
-// Variable: FIRST_DRESS_STYLES
-// Query: *[_type == "dressStyle"][0...4] {    "id": _id,    "imageUrl": image.asset->url,    title,  }
-export type FIRST_DRESS_STYLESResult = Array<{
-  id: string;
-  imageUrl: string | null;
-  title: string | null;
-}>;
-
-// Source: ./sanity/lib/clothes/clothes.ts
-// Variable: FIRST_NEW_CLOTHES
-// Query: *[_type == "clothes"] | order(createdAt desc)[0...4] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    "slug": slug.current,    discount,    title,    rating,    price  }
-export type FIRST_NEW_CLOTHESResult = Array<{
-  id: string;
-  imageUrl: string | null;
-  slug: string | null;
-  discount: number | null;
-  title: string | null;
-  rating: number | null;
-  price: number | null;
-}>;
-// Variable: TOP_SELLING_CLOTHES
-// Query: *[_type == "clothes"] | order(salesCount desc)[0...4] {    "id": _id,    "imageUrl": imagesAndColors[0].images[0].asset->url,    "slug": slug.current,    discount,    title,    rating,    price  }
-export type TOP_SELLING_CLOTHESResult = Array<{
-  id: string;
-  imageUrl: string | null;
-  slug: string | null;
-  discount: number | null;
-  title: string | null;
-  rating: number | null;
-  price: number | null;
-}>;
-// Variable: CLOTHES_BY_QUERY
-// Query: *[_type == "clothes" && title match $searchQuery] {        "id": _id,        "imageUrl": imagesAndColors[0].images[0].asset->url,        "slug": slug.current,        title,        rating,        price    }
-export type CLOTHES_BY_QUERYResult = Array<{
-  id: string;
-  imageUrl: string | null;
-  slug: string | null;
-  title: string | null;
-  rating: number | null;
-  price: number | null;
-}>;
-// Variable: GET_PAGINATED_DATA
-// Query: {    "total": count(*[_type == "clothes" ]),    "items": *[_type == "clothes" ] [$start...$end] {      "id": _id,      "imageUrl": imagesAndColors[0].images[0].asset->url,      "slug": slug.current,      discount,      title,      rating,      price    }  }
-export type GET_PAGINATED_DATAResult = {
-  total: number;
-  items: Array<{
-    id: string;
-    imageUrl: string | null;
-    slug: string | null;
-    discount: number | null;
-    title: string | null;
-    rating: number | null;
-    price: number | null;
-  }>;
-};
-
 // Source: ./sanity/lib/filters/filter.ts
 // Variable: GET_FILTERS
 // Query: {    "category": *[_type == "category"]{    "id": _id,    title,    "slug": slug.current,  },    "dressStyle": *[_type == "dressStyle"] {    "id": _id,    title,    "slug": slug.current,    },  }
@@ -440,16 +383,21 @@ export type GET_FILTERSResult = {
   }>;
 };
 
+// Source: ./sanity/lib/dressStyles/dressStyles.ts
+// Variable: FIRST_DRESS_STYLES
+// Query: *[_type == "dressStyle"][0...4] {    "id": _id,    "imageUrl": image.asset->url,    title,  }
+export type FIRST_DRESS_STYLESResult = Array<{
+  id: string;
+  imageUrl: string | null;
+  title: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n    *[_type == \"brand\"][0...15] {\n    \"id\": _id,\n    \"title\": title,\n    \"logoUrl\": brandLogo.asset->url\n  }": FIRST_BRANDSResult;
-    "\n    *[_type == \"dressStyle\"][0...4] {\n    \"id\": _id,\n    \"imageUrl\": image.asset->url,\n    title,\n  }": FIRST_DRESS_STYLESResult;
-    "\n    *[_type == \"clothes\"] | order(createdAt desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": FIRST_NEW_CLOTHESResult;
-    "\n    *[_type == \"clothes\"] | order(salesCount desc)[0...4] {\n    \"id\": _id,\n    \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n    \"slug\": slug.current,\n    discount,\n    title,\n    rating,\n    price\n  }": TOP_SELLING_CLOTHESResult;
-    "\n        *[_type == \"clothes\" && title match $searchQuery] {\n        \"id\": _id,\n        \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n        \"slug\": slug.current,\n        title,\n        rating,\n        price\n    }": CLOTHES_BY_QUERYResult;
-    "{\n    \"total\": count(*[_type == \"clothes\" ]),\n    \"items\": *[_type == \"clothes\" ] [$start...$end] {\n      \"id\": _id,\n      \"imageUrl\": imagesAndColors[0].images[0].asset->url,\n      \"slug\": slug.current,\n      discount,\n      title,\n      rating,\n      price\n    }\n  }": GET_PAGINATED_DATAResult;
     "\n    {\n    \"category\": *[_type == \"category\"]{\n    \"id\": _id,\n    title,\n    \"slug\": slug.current,\n  },\n    \"dressStyle\": *[_type == \"dressStyle\"] {\n    \"id\": _id,\n    title,\n    \"slug\": slug.current,\n    },\n  }": GET_FILTERSResult;
+    "\n    *[_type == \"dressStyle\"][0...4] {\n    \"id\": _id,\n    \"imageUrl\": image.asset->url,\n    title,\n  }": FIRST_DRESS_STYLESResult;
   }
 }

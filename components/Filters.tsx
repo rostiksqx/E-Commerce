@@ -81,20 +81,28 @@ export default function Filters({
       </div>
       <Divider className="mx-auto max-w-[247px]" />
       <div>
-        {filters.category
-          .slice(0, showMoreCategories ? filters.category.length : 5)
-          .map((category) => (
-            <div
-              key={category.id}
-              onClick={() => toggleFilterClick("categories", category.slug!)}
-              className="flex items-center gap-2 mb-1"
-            >
-              <Checkbox id={category.slug!} className="w-5 h-5 shadow-none" />
-              <label className="cursor-pointer" htmlFor={category.slug!}>
-                {category.title}
-              </label>
-            </div>
-          ))}
+        {filters.category.length === 0 ? (
+          <div className="animate-pulse">
+            <div className="w-20 h-5 bg-[#F0F0F0] rounded-[62px] mb-2" />
+            <div className="w-20 h-5 bg-[#F0F0F0] rounded-[62px] mb-2" />
+            <div className="w-20 h-5 bg-[#F0F0F0] rounded-[62px]" />
+          </div>
+        ) : (
+          filters.category
+            .slice(0, showMoreCategories ? filters.category.length : 5)
+            .map((category) => (
+              <div
+                key={category.id}
+                onClick={() => toggleFilterClick("categories", category.slug!)}
+                className="flex items-center gap-2 mb-1"
+              >
+                <Checkbox id={category.slug!} className="w-5 h-5 shadow-none" />
+                <label className="cursor-pointer" htmlFor={category.slug!}>
+                  {category.title}
+                </label>
+              </div>
+            ))
+        )}
         {filters.category.length > 5 && (
           <button
             onClick={() => setShowMoreCategories((prev) => !prev)}
@@ -117,7 +125,7 @@ export default function Filters({
               onValueChange={handlePriceChange}
               min={0}
               max={3000}
-              step={10}
+              step={5}
               value={selectedFilters.price || [0, 2600]}
             />
           </AccordionContent>
@@ -187,28 +195,36 @@ export default function Filters({
           <AccordionTrigger>Dress Style</AccordionTrigger>
           <AccordionContent>
             <div>
-              {filters.dressStyle
-                .slice(0, showMoreDressStyle ? filters.dressStyle.length : 5)
-                .map((dressStyle) => (
-                  <div
-                    onClick={() =>
-                      toggleFilterClick("dressStyle", dressStyle.slug!)
-                    }
-                    key={dressStyle.id}
-                    className="flex items-center gap-2 mb-1 cursor-pointer"
-                  >
-                    <Checkbox
-                      id={dressStyle.slug!}
-                      className="w-5 h-5 shadow-none"
-                    />
-                    <label
-                      className="cursor-pointer"
-                      htmlFor={dressStyle.slug!}
+              {filters.dressStyle.length === 0 ? (
+                <div className="animate-pulse">
+                  <div className="w-20 h-5 bg-[#F0F0F0] rounded-[62px] mb-2" />
+                  <div className="w-20 h-5 bg-[#F0F0F0] rounded-[62px] mb-2" />
+                  <div className="w-20 h-5 bg-[#F0F0F0] rounded-[62px]" />
+                </div>
+              ) : (
+                filters.dressStyle
+                  .slice(0, showMoreDressStyle ? filters.dressStyle.length : 5)
+                  .map((dressStyle) => (
+                    <div
+                      onClick={() =>
+                        toggleFilterClick("dressStyle", dressStyle.slug!)
+                      }
+                      key={dressStyle.id}
+                      className="flex items-center gap-2 mb-1 cursor-pointer"
                     >
-                      {dressStyle.title}
-                    </label>
-                  </div>
-                ))}
+                      <Checkbox
+                        id={dressStyle.slug!}
+                        className="w-5 h-5 shadow-none"
+                      />
+                      <label
+                        className="cursor-pointer"
+                        htmlFor={dressStyle.slug!}
+                      >
+                        {dressStyle.title}
+                      </label>
+                    </div>
+                  ))
+              )}
               {filters.dressStyle.length > 5 && (
                 <button
                   onClick={() => setShowMoreDressStyle((prev) => !prev)}
