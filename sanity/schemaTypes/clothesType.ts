@@ -64,7 +64,7 @@ export const clothesType = defineType({
       name: "smallDescription",
       title: "Small Description",
       type: "string",
-      validation: (Rule) => Rule.required().min(10).max(100),
+      validation: (Rule) => Rule.required().min(10).max(140),
     }),
     defineField({
       name: "productDetails",
@@ -167,8 +167,8 @@ export const clothesType = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Men", value: "men" },
-          { title: "Women", value: "women" },
+          { title: "Man", value: "man" },
+          { title: "Woman", value: "woman" },
           { title: "Kid", value: "kid" },
           { title: "Unisex", value: "unisex" },
         ],

@@ -1,4 +1,5 @@
-﻿import { FilterState } from "@/types/shop-types";
+﻿import { FetchShopDataProps, FilterState, ShopData } from "@/types/shop-types";
+import toast from "react-hot-toast";
 
 export const getFilterCondition = (selectedFilters: FilterState) => {
   let baseCondition = "";
@@ -36,9 +37,9 @@ export const getSortCondition = (sortOptions: string) => {
     case "most-popular":
       return "| order(salesCount desc)";
     case "price-low-to-high":
-      return "| order(price asc)";
+      return "| order(price asc) | order(discount asc)";
     case "price-high-to-low":
-      return "| order(price desc)";
+      return "| order(price desc) | order(discount desc)";
     case "a-z":
       return "| order(title asc)";
     case "z-a":
@@ -51,3 +52,43 @@ export const getSortCondition = (sortOptions: string) => {
       return "";
   }
 };
+
+export async function fetchShopData({
+  setIsLoading,
+  setShopData,
+  filters,
+  sortOptions,
+  currentPage,
+  gender,
+  onSale = false,
+  newArrivals = false,
+}: FetchShopDataProps) {
+  try {
+    setIsLoading(true);
+    const loading = toast.loading("Loading products...");
+    const response = await fetch(`/api/shop`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        selectedFilters: filters,
+        sortOptions: sortOptions,
+        currentPage,
+        gender,
+        onSale,
+        newArrivals,
+      }),
+    });
+
+    if (!response.ok) {
+      toast.error("Failed to fetch products");
+      return;
+    }
+    const data = (await response.json()) as ShopData;
+    setShopData(data);
+    setIsLoading(false);
+    toast.success("Products loaded", { id: loading });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    toast.error("Failed to fetch products");
+  }
+}

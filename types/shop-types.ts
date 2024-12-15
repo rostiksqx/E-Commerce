@@ -30,3 +30,14 @@ export interface ShopData {
   totalPages: number;
   filters: GET_FILTERSResult;
 }
+
+export interface FetchShopDataProps {
+  setIsLoading: (loading: boolean) => void;
+  setShopData: (data: ShopData) => void;
+  filters: FilterState;
+  sortOptions: string;
+  currentPage: number;
+  gender?: string;
+  onSale?: boolean;
+  newArrivals?: boolean;
+}

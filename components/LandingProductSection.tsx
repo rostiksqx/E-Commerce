@@ -50,7 +50,7 @@ export default function LandingProductSection({
         ))}
       </motion.div>
       <Link
-        href="/shop"
+        href="/shop?newArrivals"
         className="w-full flex justify-center sm:mt-9 mt-[24px]"
       >
         <WhiteButton text="View All" />

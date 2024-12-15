@@ -1422,11 +1422,11 @@
           "of": [
             {
               "type": "string",
-              "value": "men"
+              "value": "man"
             },
             {
               "type": "string",
-              "value": "women"
+              "value": "woman"
             },
             {
               "type": "string",

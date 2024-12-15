@@ -1,7 +1,7 @@
 ﻿import { defineQuery } from "next-sanity";
 import { sanityFetch } from "../live";
 import { FilterState } from "@/types/shop-types";
-import { getFilterCondition, getSortCondition } from "@/sanity/lib/utils/utils";
+import { getFilterCondition, getSortCondition } from "@/utils/utils";
 
 export const GetFirstNewClothes = async (size: number = 4) => {
   const FIRST_NEW_CLOTHES = defineQuery(`
@@ -17,7 +17,7 @@ export const GetFirstNewClothes = async (size: number = 4) => {
 
   try {
     const clothes = await sanityFetch({ query: FIRST_NEW_CLOTHES });
-    return clothes.data || [];
+    return clothes.data;
   } catch (error) {
     console.error("Error fetching brands: ", error);
     return [];
@@ -38,7 +38,7 @@ export const GetTopSellingClothes = async (size: number = 4) => {
 
   try {
     const clothes = await sanityFetch({ query: TOP_SELLING_CLOTHES });
-    return clothes.data || [];
+    return clothes.data;
   } catch (error) {
     console.error("Error fetching brands: ", error);
     return [];
@@ -61,7 +61,7 @@ export const GetClothesByQuery = async (query = "") => {
       query: CLOTHES_BY_QUERY,
       params: { searchQuery: `${query}*` },
     });
-    return clothes.data || [];
+    return clothes.data;
   } catch (error) {
     console.error("Error fetching clothes: ", error);
     return [];
@@ -72,6 +72,7 @@ export const GetPaginatedData = async (
   page: number = 1,
   limit: number = 9,
   filters: {
+    gender?: string;
     sortOptions?: string;
     selectedFilters?: FilterState;
     onSale?: boolean;
@@ -81,7 +82,7 @@ export const GetPaginatedData = async (
   let baseCondition = getFilterCondition(filters.selectedFilters!);
   let sortCondition = getSortCondition(filters.sortOptions!);
   if (filters.onSale) baseCondition += ` && discount > 0`;
-  if (filters.newArrivals) sortCondition += " | order(createdAt desc)";
+  if (filters.gender) baseCondition += ` && gender match "${filters.gender}"`;
 
   const GET_PAGINATED_DATA = defineQuery(`{
     "total": count(*[_type == "clothes" ${baseCondition}]${sortCondition}),
@@ -99,7 +100,10 @@ export const GetPaginatedData = async (
   try {
     const { data } = await sanityFetch({
       query: GET_PAGINATED_DATA,
-      params: { start: (page - 1) * limit, end: page * limit },
+      params: {
+        start: (page - 1) * limit,
+        end: page * limit,
+      },
     });
 
     return {

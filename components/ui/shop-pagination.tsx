@@ -1,7 +1,4 @@
-﻿"use client";
-
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+﻿import React from "react";
 import {
   Pagination,
   PaginationContent,
@@ -17,22 +14,14 @@ export default function ShopPagination({
   totalPages,
   totalItems,
   searchParams,
-  isLoading,
+  baseUrl,
 }: {
   currentPage: number;
   totalPages: number;
   totalItems: number;
-  searchParams: { onSale?: boolean; newArrivals?: boolean };
-  isLoading: boolean;
+  searchParams?: { onSale?: boolean; newArrivals?: boolean };
+  baseUrl?: string;
 }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (totalItems <= 0 || currentPage > totalPages) {
-      router.push("/shop");
-    }
-  }, [totalItems, currentPage, totalPages, router]);
-
   if (totalItems <= 0 || currentPage > totalPages) {
     return null;
   }
@@ -55,15 +44,15 @@ export default function ShopPagination({
   };
 
   const constructHref = (page: number): string => {
-    if (searchParams.onSale) {
-      return `/shop?onSale&page=${page}`;
+    if (searchParams?.onSale) {
+      return `/shop${baseUrl || ""}?onSale&page=${page}`;
     }
 
-    if (searchParams.newArrivals) {
-      return `/shop?newArrival&page=${page}`;
+    if (searchParams?.newArrivals) {
+      return `/shop${baseUrl || ""}?newArrival&page=${page}`;
     }
 
-    return `/shop?page=${page}`;
+    return `/shop${baseUrl || ""}?page=${page}`;
   };
 
   const paginationRange = getPaginationRange();

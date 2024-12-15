@@ -8,6 +8,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const currentPage = body.currentPage;
+    const gender = body.gender;
     const onSale = body.onSale;
     const newArrivals = body.newArrivals;
     const sortOptions = body.sortOptions;
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
     const { items, totalItems, totalPages } = await GetPaginatedData(
       Number(currentPage),
       9,
-      { sortOptions, selectedFilters, onSale, newArrivals },
+      { gender, sortOptions, selectedFilters, onSale, newArrivals },
     );
 
     const filters = (await GetFilters()) as GET_FILTERSResult;
