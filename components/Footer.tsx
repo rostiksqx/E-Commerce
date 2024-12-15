@@ -37,7 +37,7 @@ export default function Footer() {
           <input
             name="query"
             type="text"
-            placeholder="Search for products..."
+            placeholder="Enter your email address"
             className="bg-white lg:bg-white text-white lg:text-black border-none focus:outline-none pl-12 pr-4 py-3 rounded-3xl"
           />
 

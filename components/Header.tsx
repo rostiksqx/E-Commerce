@@ -88,7 +88,7 @@ export default function Header() {
         <Link href="/shop?newArrivals">
           <span>New Arrivals</span>
         </Link>
-        <Link href="/brands">
+        <Link href="/shop/brands">
           <span>Brands</span>
         </Link>
       </NavigationMenu>

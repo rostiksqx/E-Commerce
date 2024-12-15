@@ -6,7 +6,8 @@ export const GetFirstBrands = async (size: number = 15) => {
     *[_type == "brand"][0...${size}] {
     "id": _id,
     "title": title,
-    "logoUrl": brandLogo.asset->url
+    "logoUrl": brandLogo.asset->url,
+    "slug": slug.current
   }`);
 
   try {

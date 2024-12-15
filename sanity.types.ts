@@ -389,6 +389,7 @@ export type FIRST_BRANDSResult = Array<{
   id: string;
   title: string | null;
   logoUrl: string | null;
+  slug: string | null;
 }>;
 
 // Source: ./sanity/lib/clothes/clothes.ts
